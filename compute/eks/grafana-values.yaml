@@ -1,0 +1,6 @@
+grafana:
+  adminUser: admin
+  adminPassword: prom-operator
+  service:
+    type: LoadBalancer
+  defaultDashboardsEnabled: true

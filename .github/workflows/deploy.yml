@@ -1,0 +1,10 @@
+# Add EKS module to deployment order
+- name: Deploy EKS + Prometheus
+  run: |
+    cd compute/eks && terraform apply -auto-approve
+    cd ../..
+    
+# Wait for services
+- name: Wait for Prometheus
+  run: |
+    kubectl wait --for=condition=Available deployment/prometheus-kube-prometheus-operator --timeout=300s
