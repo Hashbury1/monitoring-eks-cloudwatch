@@ -15,6 +15,14 @@ module "eks" {
       max_size     = 4
       desired_size = 2
       instance_types = ["t3.medium"]
+
+      cluster_addons = {
+        coredns           = {}
+        kube-proxy        = {}
+        vpc-cni           = {}
+        aws-ebs-csi-driver = {}
+        container-insights = {}  # ← ENABLES pod_cpu_utilization metrics
+      }
     }
   }
   

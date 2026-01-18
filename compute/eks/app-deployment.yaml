@@ -6,11 +6,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: demo-app
+      app: monitoring-app
   template:
     metadata:
       labels:
-        app: demo-app
+        app: monitoring-app
       annotations:
         prometheus.io/scrape: 'true' # Enable Prometheus scraping
         prometheus.io/port: '8080'
@@ -25,10 +25,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: demo-app-service # Service to expose the application
+  name: monitoring-app-service # Service to expose the application
 spec:
   selector:
-    app: demo-app
+    app: monitoring-app
   ports:
   - port: 80
     targetPort: 8080
