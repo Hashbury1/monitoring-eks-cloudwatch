@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: monitoring-app # Name of the application
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+      annotations:
+        prometheus.io/scrape: 'true' # Enable Prometheus scraping
+        prometheus.io/port: '8080'
+        prometheus.io/path: '/metrics'  # Metrics endpoint
+    spec:
+      containers:
+      - name: app
+        image: ${your-account}.dkr.ecr.us-west-2.amazonaws.com/demo-app:latest # ECR image URI
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: demo-app-service # Service to expose the application
+spec:
+  selector:
+    app: demo-app
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: LoadBalancer
