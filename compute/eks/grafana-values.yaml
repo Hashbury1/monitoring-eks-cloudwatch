@@ -1,6 +1,6 @@
 grafana:
-  adminUser: admin
-  adminPassword: prom-operator
+  adminUser: admin                    # 
+  adminPassword: "Open=secure"  # 
   service:
     type: LoadBalancer
   defaultDashboardsEnabled: true
