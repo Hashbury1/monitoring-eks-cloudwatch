@@ -23,6 +23,36 @@ aws logs tail /aws/ecs/portfolio-api --follow
 ## Troubleshooting
 - Check service status: `terraform output`
 - View task logs: `aws logs tail /aws/ecs/portfolio-api`
-```
+
+
+
+
+
+┌─────────────────┐    ┌──────────────────┐
+│   GitHub        │───▶│   AWS IAM Role   │
+│   Actions       │    │   (OIDC)         │
+│   (terraform    │    └──────────────────┘
+│   apply)        │           │
+└─────────────────┘           ▼
+                             ┌──────────────────┐
+                    ┌────────│     VPC + NAT    │────────┐
+                    │        │  Public/Private  │        │
+                    │        │    Subnets       │        │
+                    │        └──────────────────┘        │
+                    │                  │                │
+                    ▼                  ▼                ▼
+            ┌──────────────┐ ┌──────────────────┐ ┌──────────────┐
+            │   EKS        │ │ CloudWatch       │ │ Prometheus   │
+            │ Control Plane│ │ Alarms + SNS     │ │ + Grafana    │
+            │ Worker Nodes │ │ Dashboard        │ │ (monitoring) │
+            └──────────────┘ └──────────────────┘ └──────────────┘
+                       │
+                       ▼
+                ┌──────────────┐
+                │   Sample     │
+                │   App        │───▶ /health, /heavy, /error
+                │ (/metrics)   │     (Triggers alarms)
+                └──────────────┘
+
 
 
