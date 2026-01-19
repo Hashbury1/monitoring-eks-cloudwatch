@@ -35,7 +35,7 @@ module "vpc" {
   }
 }
 
-# EKS Cluster (uses VPC module outputs - NO MANUAL IDs)
+# EKS Cluster 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "~> 20.0"
@@ -44,7 +44,7 @@ module "eks" {
   cluster_version = "1.29"  # Stable version
 
   vpc_id                   = module.vpc.vpc_id
-  subnet_ids               = module.vpc.private_subnets  # PRIVATE subnets only
+  subnet_ids               = module.vpc.private_subnets  # USE PRIVATE subnets only
   cluster_endpoint_public_access = true
 
   eks_managed_node_groups = {
@@ -64,7 +64,8 @@ module "eks" {
   }
 }
 
-# CloudWatch Monitoring 
+# SNS alerts
+
 resource "aws_sns_topic" "alerts" {
   name = "${var.app_name}-alerts"
 }
